@@ -4,7 +4,7 @@
 
 #define CAL_H 7
 #define CAL_V 6
-#define HEADER_LEN 21;
+#define HEADER_LEN 21
 
 int days(int month, int year){
     int pos_days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -30,6 +30,17 @@ int week(int day, int month, int year){
     return date.tm_wday;
 }
 
+void centering(char *s, int size){
+    int len = strlen(s);
+    int indent = (size - len) / 2;
+    int i;
+
+    for(i=len;i>=0;i--){
+        s[i+indent] = s[i];
+        s[i] = ' ';
+    }
+}
+
 void make_cal(int month, int year, int cal[CAL_V][CAL_H]){
     int nd, wd;
     int i, j, d;
@@ -50,29 +61,16 @@ void make_cal(int month, int year, int cal[CAL_V][CAL_H]){
         cal[i][j] = d;
     }
 }
-
-/*
 void make_header(int mon, int ye, char h[HEADER_LEN]){
     char *months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     sprintf(h, "%s %04d", months[mon-1], ye);
     centering(h, HEADER_LEN);
 }
 
-void centering(char *s, int size){
-    int len = strlen(s);
-    int indent = (size - len) / 2;
-    int i;
-
-    for(i=len;i>=0;i--){
-        s[i+indent] = s[i];
-        s[i] = ' ';
-    }
-}
-*/
 
 main(){
     int cal[CAL_V][CAL_H];
-    //char header[HEADER_LEN];
+    char header[HEADER_LEN];
     int i, j;
     int year, month;
     time_t tt_now;
@@ -84,8 +82,8 @@ main(){
     year = st_now.tm_year + 1900;
 
 
-    //make_header(month, year, header);
-    //printf("%s\n", header);
+    make_header(month, year, header);
+    printf("%s\n", header);
     printf("Su Mo Tu We Th Fr Sa\n");
 
     make_cal(month, year, cal);
